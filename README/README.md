@@ -1,17 +1,9 @@
 
 # Waveform Module
-This tool facilitates creating waveforms for simulations or measurements. With this module, users create waveform objects, which define a computational graph for computing a waveform (a 1D numpy array). Arbitrarily complex waveforms may be constructed by composing primitive waveform types. The waveform defined by an object is not actually calculatd until the user gets the `waveform` attribute. Once computed, waveforms are stored in a global cache until objects from which they are derived change state or are deleted. 
-
-
-```python
-import waveform as wf
-import numpy as np
-import matplotlib.pyplot as plt
-%matplotlib inline
-```
+This tool facilitates creating waveforms for simulations or measurements. With this module, users create waveform objects, which define a computational graph for computing a waveform (a 1D numpy array). Arbitrarily complex waveforms may be constructed by composing primitive waveform types. The waveform defined by an object is not actually calculated until the user gets the `waveform` attribute. Once computed, waveforms are stored in a global cache until objects from which they are derived change state or are deleted. 
 
 ## Primitive Waveform Types
-Each primivites type has a unique set of properties and implements a function that takes these properties and returns a waveform.
+Each primitives type has a unique set of properties and implements a function that takes these properties and returns a waveform.
 ### **_class_** waveform.\_primitives.**Step**(tBefore=0.1, tStep=0.8, tAfter=0.1, offset=0, height=1, dt=0.0001)
         dt = 0.0001      Sampling period, in sec
         tBefore = 0.1    Duration at offset before ramp, in seconds
@@ -55,7 +47,7 @@ ramp.plot();
         heightFirst = 0.2,      Amplitude of the first pulse relative to offset
         heightLast = 1,         Amplitude of the last pulse relative to offset
         offset = 0,             Offset value from 0
-        Nsteps = 5,             Number of steps, postive integer
+        Nsteps = 5,             Number of steps, positive integer
 
 
 ```python
@@ -238,7 +230,7 @@ general.plot();
 
 ***
 ## Composite Waveform Types
-Composite types contain one or more primitive types as properties. Composites and primitives derive from the same base class and therefore can be used interchanably. 
+Composite types contain one or more primitive types as properties. Composites and primitives derive from the same base class and therefore can be used interchangeably. 
 ### _class_ waveform.\_composites.**Array**(*arglist-or-iterable*)
 Custom list class that aggregates waveform objects. The class derives from the builtin `list` class, therefore Array objects can be treated like list, however, the binary operators `+` and `*` are overloaded and do not perform the usual concatenation and repetition (as discussed later). The in-place list methods `extend()` and `append()` can be used instead of the `+`. The `waveform` and `times` attributes of Array objects are simply the concatenated arrays of the aggregated objects. The `duration` attribute is the total duration (i.e., sum of) of the aggregated objects. Any waveform objects may be aggregated, including other Array types. 
 
@@ -257,7 +249,7 @@ wf_array.plot();
 Maps the values of a waveform to other values according to a mapping function. This class is useful in accounting for nonlinearities in light intensity modulation devices, such as Pockel's cells and AOTFs. In this case, the Map serves to map from fractional intensity to voltage.
 
     waveform_object,    Any waveform object
-    function,           Function with signiture np.array wf = f(np.array wf)
+    function,           Function with signature np.array wf = f(np.array wf)
 
 
 ```python
@@ -297,7 +289,7 @@ ax.legend(["step", "shutter"]);
 
 
 ### **_class_** waveform.\_composites.**PulseRate**(waveform_object, initial_val=0.5, ton=0.001, height=1, offset=0)
-Creates a pulse train where the instantanteous pulse rate is given by an arbitrary rate function. An absolute value is applied to the rate function as 'negative rates' are not meaningful. The waveform attribute of the waveform_object defines the rate function.
+Creates a pulse train where the instantaneous pulse rate is given by an arbitrary rate function. An absolute value is applied to the rate function as 'negative rates' are not meaningful. The waveform attribute of the waveform_object defines the rate function.
 
     waveform_object   Waveform object defining the rate function
     initial_val = 0.5 Number between 0 and 1; With 1 first pulse is at t = 0
